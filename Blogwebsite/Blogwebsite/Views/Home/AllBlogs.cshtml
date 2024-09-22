@@ -1,0 +1,142 @@
+﻿@model IEnumerable<Blog>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+
+    th, td {
+        border: 1px solid #ddd;
+        padding: 12px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #f2f2f2;
+        font-weight: bold;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    .btn {
+        display: inline-block;
+        padding: 6px 12px;
+        margin-bottom: 0;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 1.42857143;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+        cursor: pointer;
+        border: 1px solid transparent;
+        border-radius: 4px;
+    }
+
+    .btn-edit {
+        color: #fff;
+        background-color: #337ab7;
+        border-color: #2e6da4;
+    }
+
+    .btn-delete {
+        color: #fff;
+        background-color: #d9534f;
+        border-color: #d43f3a;
+    }
+
+    .tag {
+        display: inline-block;
+        padding: 2px 8px;
+        margin: 2px;
+        background-color: #e0e0e0;
+        border-radius: 4px;
+        font-size: 12px;
+    }
+
+</style>
+<div id="posts-container">
+    @if (ViewBag.BlogMessage != null)
+    {
+        <h1 style="text-align:center;margin-top:50px" >@ViewBag.BlogMessage</h1>
+    }
+    else
+    {
+        <table>
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Content</th>
+                    <th>Created Date</th>
+                    <th>Tags</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var x in Model)
+                {
+                    <tr>
+                        <td>@x.Title</td>
+                        <td>@x.Content</td>
+                        <td>@(x.CreatedDate?.ToString("dd MMMM yyyy") ?? "Date not available")</td>
+                        <td>
+                            @if (!string.IsNullOrEmpty(x.Tags))
+                            {
+                                var tags = x.Tags.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                                foreach (var tag in tags)
+                                {
+                                    <span class="tag">@tag.Trim()</span>
+                                }
+                            }
+                        </td>
+                        <td>
+                            <a asp-action="UpdateBlog" asp-controller="Home" asp-route-id="@x.PostId" class="btn btn-edit">Edit</a>
+                            <a asp-action="DeleteBlog" asp-controller="Home" asp-route-id="@x.PostId" class="btn btn-delete">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+<script>
+    const showToast = (message, background) => {
+        Toastify({
+            text: message,
+            duration: 3000,
+            destination: "https://github.com/apvarun/toastify-js",
+            newWindow: true,
+            close: true,
+            gravity: "top",
+            position: "center",
+            stopOnFocus: true,
+            style: {
+                background: background,
+                minHeight: "10px",
+                outerWidth: "80px",
+                padding: "5px 10px"
+            },
+            onClick: function () { }
+        }).showToast();
+    };
+
+    @if (TempData["DeleteMessage"] != null)
+    {
+        <text>
+            showToast('@TempData["DeleteMessage"]', "red");
+        </text>
+    }
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <text>
+            showToast('@TempData["SuccessMessage"]', "linear-gradient(to right, #00b09b, #96c93d)");
+        </text>
+    }
+</script>

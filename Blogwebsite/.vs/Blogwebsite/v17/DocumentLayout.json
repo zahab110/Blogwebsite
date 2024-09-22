@@ -1,0 +1,92 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\ZAHAB\\source\\repos\\Blogwebsite\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{BCC7DAE0-7702-4BDA-A596-D47FECBDE938}|Blogwebsite\\Blogwebsite.csproj|c:\\users\\zahab\\source\\repos\\blogwebsite\\blogwebsite\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BCC7DAE0-7702-4BDA-A596-D47FECBDE938}|Blogwebsite\\Blogwebsite.csproj|solutionrelative:blogwebsite\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BCC7DAE0-7702-4BDA-A596-D47FECBDE938}|Blogwebsite\\Blogwebsite.csproj|c:\\users\\zahab\\source\\repos\\blogwebsite\\blogwebsite\\views\\home\\addblog.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{BCC7DAE0-7702-4BDA-A596-D47FECBDE938}|Blogwebsite\\Blogwebsite.csproj|solutionrelative:blogwebsite\\views\\home\\addblog.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BCC7DAE0-7702-4BDA-A596-D47FECBDE938}|Blogwebsite\\Blogwebsite.csproj|c:\\users\\zahab\\source\\repos\\blogwebsite\\blogwebsite\\views\\home\\addcategory.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{BCC7DAE0-7702-4BDA-A596-D47FECBDE938}|Blogwebsite\\Blogwebsite.csproj|solutionrelative:blogwebsite\\views\\home\\addcategory.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BCC7DAE0-7702-4BDA-A596-D47FECBDE938}|Blogwebsite\\Blogwebsite.csproj|c:\\users\\zahab\\source\\repos\\blogwebsite\\blogwebsite\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{BCC7DAE0-7702-4BDA-A596-D47FECBDE938}|Blogwebsite\\Blogwebsite.csproj|solutionrelative:blogwebsite\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 4,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{b1e99781-ab81-11d0-b683-00aa00a3ee26}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "AddBlog.cshtml",
+              "DocumentMoniker": "C:\\Users\\ZAHAB\\source\\repos\\Blogwebsite\\Blogwebsite\\Views\\Home\\AddBlog.cshtml",
+              "RelativeDocumentMoniker": "Blogwebsite\\Views\\Home\\AddBlog.cshtml",
+              "ToolTip": "C:\\Users\\ZAHAB\\source\\repos\\Blogwebsite\\Blogwebsite\\Views\\Home\\AddBlog.cshtml",
+              "RelativeToolTip": "Blogwebsite\\Views\\Home\\AddBlog.cshtml",
+              "ViewState": "AQIAACMAAADALzMzM/MjwCgAAAAFAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-09-22T09:59:52.92Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "AddCategory.cshtml",
+              "DocumentMoniker": "C:\\Users\\ZAHAB\\source\\repos\\Blogwebsite\\Blogwebsite\\Views\\Home\\AddCategory.cshtml",
+              "RelativeDocumentMoniker": "Blogwebsite\\Views\\Home\\AddCategory.cshtml",
+              "ToolTip": "C:\\Users\\ZAHAB\\source\\repos\\Blogwebsite\\Blogwebsite\\Views\\Home\\AddCategory.cshtml",
+              "RelativeToolTip": "Blogwebsite\\Views\\Home\\AddCategory.cshtml",
+              "ViewState": "AQIAADwAAACANTMzMzMrwEQAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-09-22T09:05:47.54Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\ZAHAB\\source\\repos\\Blogwebsite\\Blogwebsite\\Views\\Home\\Index.cshtml",
+              "RelativeDocumentMoniker": "Blogwebsite\\Views\\Home\\Index.cshtml",
+              "ToolTip": "C:\\Users\\ZAHAB\\source\\repos\\Blogwebsite\\Blogwebsite\\Views\\Home\\Index.cshtml",
+              "RelativeToolTip": "Blogwebsite\\Views\\Home\\Index.cshtml",
+              "ViewState": "AQIAAPgAAAAAwMzMzMz8vwsBAAAIAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-09-22T07:15:06.609Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "HomeController.cs",
+              "DocumentMoniker": "C:\\Users\\ZAHAB\\source\\repos\\Blogwebsite\\Blogwebsite\\Controllers\\HomeController.cs",
+              "RelativeDocumentMoniker": "Blogwebsite\\Controllers\\HomeController.cs",
+              "ToolTip": "C:\\Users\\ZAHAB\\source\\repos\\Blogwebsite\\Blogwebsite\\Controllers\\HomeController.cs",
+              "RelativeToolTip": "Blogwebsite\\Controllers\\HomeController.cs",
+              "ViewState": "AQIAAG0AAAAAAAAAAAAkwH0AAAAMAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-21T04:37:57.768Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

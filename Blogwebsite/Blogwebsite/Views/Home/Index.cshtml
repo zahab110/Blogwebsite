@@ -1,0 +1,283 @@
+﻿@model Blogwebsite.ViewModels.IndexVM
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+<style>
+    .text-center {
+        text-align: center
+    }
+    .sort-container .right-section {
+        display: flex;
+        gap: 15px;
+        margin-left: auto;
+        margin-top:5px
+    }
+
+    input[type="date"],
+    input[type="submit"],
+    input[type="number"] {
+        padding: 5px;
+        font-size: 14px;
+    }
+</style>
+<div id="search-container">
+    <input type="text" id="search-input" placeholder="Search by posts title...">
+</div>
+
+<div id="filter-container">
+    @if (ViewBag.CategoryMessage != null)
+    {
+        <p>@ViewBag.CategoryMessage</p>
+    }
+    else
+    {
+        <form method="get" asp-action="GetBlogsByCategory" asp-controller="Home" class="category-form">
+            <input type="hidden" name="CategoryId" value="0" />
+            <input type="submit" class="filter-button" value="All" />
+        </form>
+
+        @foreach (var i in Model.AllCategories)
+        {
+            <form method="get" asp-action="GetBlogsByCategory" asp-controller="Home" class="category-form">
+                <input type="hidden" name="CategoryId" value="@i.CategoryId" />
+                <input type="submit" class="filter-button active" value="@i.CategoryName" />
+            </form>
+        }
+    }
+
+</div>
+<div class="sort-container">
+    <label for="sort-select">Sort by :</label>
+    <select id="sort-select" name="sort" class="sort-dropdown">
+        <option value="oldest">Oldest First</option>
+        <option value="newest">Newest First</option>
+    </select>
+
+    <div style="margin-left:15px">
+        <label for="sort-select">Search By PostID :</label>
+        <input type="number" id="searchPostInput" />
+        <input type="submit" id="searchPostID" />
+    </div>
+    <div class="right-section">
+        <label for="sort-select">From Date :</label>
+        <input type="date" id="fromDate" />
+        <label for="sort-select">To Date :</label>
+        <input type="date" id="toDate" />
+        <input type="submit" id="search" />
+    </div>
+</div>
+
+
+
+<div id="posts-container">
+    @if (ViewBag.BlogMessage != null)
+    {
+        <h1 style="text-align:center;margin-top:50px" >@ViewBag.BlogMessage</h1>
+    }
+    else
+    {
+        @foreach (var x in Model.Allblogs)
+        {
+            <div class="post" data-title="@x.Title.ToLower()">
+                <h2>@x.Title</h2>
+                <div class="post-meta">
+                    Posted on <strong>@(x.CreatedDate?.ToString("dd MMMM yyyy") ?? "Date not available")</strong>
+                </div>
+                <p>@x.Content</p>
+                <div class="post-tags">
+                    @if (!string.IsNullOrEmpty(x.Tags))
+                    {
+                        var tags = x.Tags.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                        foreach (var tag in tags)
+                        {
+                            <span class="tag">@tag.Trim()</span>
+                        }
+                    }
+                </div>
+            </div>
+        }
+    }
+</div>
+
+<div id="pagination">
+    @if (Model.CurrentPage > 1)
+    {
+        <a href="@Url.Action("Index", new { page = Model.CurrentPage - 1 })" class="page-button">Previous</a>
+    }
+
+    @for (int i = 1; i <= Model.TotalPages; i++)
+    {
+        <a href="@Url.Action("Index", new { page = i })" class="page-button @(i == Model.CurrentPage ? "active" : "")">@i</a>
+    }
+
+    @if (Model.CurrentPage < Model.TotalPages)
+    {
+        <a href="@Url.Action("Index", new { page = Model.CurrentPage + 1 })" class="page-button">Next</a>
+    }
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+<script>
+    let currentPage = 1;
+    const pageSize = 2;
+    let currentFilter = {
+        type: 'category',
+        value: 0
+    };
+
+    function showToast(message, background = 'red') {
+        Toastify({
+            text: message,
+            duration: 3000,
+            gravity: "top",
+            position: "center",
+            style: {
+                background: background,
+                minHeight: "10px",
+                padding: "5px 10px"
+            },
+        }).showToast();
+    }
+
+    function formatDate(dateString) {
+        return dateString
+            ? new Date(dateString).toLocaleDateString('en-US', { day: '2-digit', month: 'long', year: 'numeric' })
+            : 'Date not available';
+    }
+
+    function fetchBlogs(url, data) {
+        return $.ajax({
+            url: url,
+            data: { ...data, page: currentPage, pageSize: pageSize },
+            type: 'POST'
+        });
+    }
+
+    function updatePostsContainer(blogs, currentPage, totalPages) {
+        const container = $('#posts-container');
+        const pagination = $('#pagination');
+        container.empty();
+        pagination.empty();
+
+        if (blogs.length === 0) {
+            container.append('<h1 class="text-center">No blog posts available.</h1>');
+            return;
+        }
+
+        blogs.forEach(blog => {
+            const { title = '', content = '', createdDate, tags = '' } = blog;
+            const postHtml = `
+                <div class="post" data-title="${title.toLowerCase()}">
+                    <h2>${title}</h2>
+                    <div class="post-meta">Posted on <strong>${formatDate(createdDate)}</strong></div>
+                    <p>${content}</p>
+                    <div class="post-tags">
+                        ${tags.split(',').map(tag => `<span class="tag">${tag.trim()}</span>`).join('')}
+                    </div>
+                </div>
+            `;
+            container.append(postHtml);
+        });
+
+        updatePagination(pagination, currentPage, totalPages);
+    }
+
+    function updatePagination(pagination, currentPage, totalPages) {
+        if (currentPage > 1) {
+            pagination.append(`<button class="page-button" onclick="changePage(${currentPage - 1})">Previous</button>`);
+        }
+
+        for (let i = 1; i <= totalPages; i++) {
+            pagination.append(`<button class="page-button ${i === currentPage ? 'active' : ''}" onclick="changePage(${i})">${i}</button>`);
+        }
+
+        if (currentPage < totalPages) {
+            pagination.append(`<button class="page-button" onclick="changePage(${currentPage + 1})">Next</button>`);
+        }
+    }
+
+    function loadBlogs() {
+        let url, data;
+        switch (currentFilter.type) {
+            case 'category':
+                url = '@Url.Action("GetBlogsByCategory", "Home")';
+                data = { categoryId: currentFilter.value };
+                break;
+            case 'date':
+                url = '@Url.Action("GetDateSortingBlog", "Home")';
+                data = { fromDate: currentFilter.value.from, toDate: currentFilter.value.to };
+                break;
+            case 'sort':
+                url = '@Url.Action("GetSortingBlog", "Home")';
+                data = { GetText: currentFilter.value };
+                break;
+            case 'post':
+                url = '@Url.Action("GetSortingByPostID", "Home")';
+                data = { GetID: currentFilter.value };
+                break;
+            default:
+                url = '/Blog/Index';
+                data = {};
+        }
+
+        fetchBlogs(url, data)
+            .done(function (response) {
+                if (response.success) {
+                    updatePostsContainer(response.data, response.currentPage, response.totalPages);
+                } else {
+                    showToast(response.message);
+                }
+            })
+            .fail(function (xhr, status) {
+                console.error('An error occurred:', status);
+                showToast('Failed to load blogs. Please try again.');
+            });
+    }
+
+    $('#search').click(function () {
+        const fromDate = $('#fromDate').val();
+        const toDate = $('#toDate').val();
+        if (fromDate && toDate) {
+            currentFilter = { type: 'date', value: { from: fromDate, to: toDate } };
+            currentPage = 1;
+            loadBlogs();
+        } else {
+            showToast('Please enter both From Date and To Date');
+        }
+    });
+
+    $('#search-input').keyup(function () {
+        const searchText = $(this).val().toLowerCase();
+        $('.post').each(function () {
+            $(this).toggle($(this).data('title').indexOf(searchText) !== -1);
+        });
+    });
+
+    $('.sort-dropdown').change(function () {
+        currentFilter = { type: 'sort', value: $(this).find(":selected").text() };
+        currentPage = 1;
+        loadBlogs();
+    });
+
+    $('.filter-button').click(function (e) {
+        e.preventDefault();
+        currentFilter = { type: 'category', value: $(this).closest('form').find('input[name="CategoryId"]').val() };
+        currentPage = 1;
+        loadBlogs();
+    });
+
+
+    $('#searchPostID').click(function (e) {
+        e.preventDefault();
+        currentFilter = { type: 'post', value: $('#searchPostInput').val() };
+        currentPage = 1;
+        loadBlogs();
+    });
+
+    function changePage(page) {
+        currentPage = page;
+        loadBlogs();
+    }
+
+    loadBlogs();
+
+
+</script>
